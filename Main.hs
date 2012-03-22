@@ -13,7 +13,11 @@ crawl :: URI -> IO ()
 crawl rootURL = do
   pageContent <- fetchUrl rootURL
   let images = mapMaybe (`relativeTo` rootURL) $ imageLinks pageContent
-  mapM_ downloadUrl images
+  mapM_ fetchImage images
+    where
+      fetchImage image = do
+        putStrLn $ "fetching " ++ (show image)
+        downloadUrl image
 
 main = do
   args <- getArgs
