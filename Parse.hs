@@ -2,6 +2,8 @@ module Parse (imageLinks) where
 
 import Data.List (lookup)
 import Data.Maybe (mapMaybe)
+
+import Network.URI
 import Text.HTML.TagSoup
 
 tagNamed :: String -> Tag String -> Maybe (Tag String)
@@ -20,8 +22,8 @@ imageSource tag = do
   attrs <- tagAttributes imageTag
   lookup "src" attrs
 
-imageLinks :: String -> [String]
-imageLinks = process . parseTags
+imageLinks :: String -> [URI]
+imageLinks = mapMaybe parseURIReference . process . parseTags
   where
     process :: [Tag String] -> [String]
     process = mapMaybe imageSource
