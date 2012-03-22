@@ -11,7 +11,7 @@ tagNamed :: String -> Tag String -> Maybe (Tag String)
 tagNamed name t@(TagOpen tagName _) = if name == tagName 
     then Just t 
     else Nothing
-tagNamed name _ = Nothing
+tagNamed _ _ = Nothing
 
 -- | If the tag has attributes, Just the attributes, otherwise Nothing.
 tagAttributes :: Tag String -> Maybe [Attribute String]
@@ -22,7 +22,7 @@ tagAttributes _                      = Nothing
 imageSource :: Tag String -> Maybe String
 imageSource tag = do
   imageTag <- tagNamed "img" tag
-  attrs <- tagAttributes imageTag
+  attrs    <- tagAttributes imageTag
   lookup "src" attrs
 
 -- | Ferret out the URIs in all the image tags in the supplied document.

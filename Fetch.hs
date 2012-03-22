@@ -1,6 +1,6 @@
 module Fetch (fetchUrl, downloadUrlTo, downloadUrl) where
 
-import Control.Applicative
+import Control.Applicative ((<$>))
 import System.FilePath
 
 import qualified Data.ByteString.Char8 as B
@@ -10,7 +10,7 @@ import Network.URI
 -- | Fetches the supplied URL and returns the string contents
 fetchUrl :: URI -> IO String
 fetchUrl url = do
-  response <- simpleHTTP (getRequest (show url))
+  response <- simpleHTTP $ getRequest $ show url
   getResponseBody response
 
 -- | Downloads the supplied URL into the supplied filename
@@ -21,4 +21,4 @@ downloadUrlTo url filename = do
 
 -- | Download the supplied URL to a local file with the basename of this URL
 downloadUrl :: URI -> IO ()
-downloadUrl url = downloadUrlTo url (takeFileName (uriPath url))
+downloadUrl url = downloadUrlTo url $ takeFileName $ uriPath url
