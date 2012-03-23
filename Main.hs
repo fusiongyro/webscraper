@@ -2,6 +2,7 @@ module Main where
 
 import Control.Applicative ((<$>))
 import Data.Maybe
+import System.FilePath
 import System.IO
 import System.Environment
 
